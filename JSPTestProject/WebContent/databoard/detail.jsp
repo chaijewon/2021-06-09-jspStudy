@@ -10,6 +10,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
+
+</style>
 </head>
 <body>
 <div class="wrapper row3">
@@ -38,7 +41,7 @@
      %>
            <tr>
              <th width="20%" class="text-center">첨부파일</th>
-             <td colspan="3"><%=vo.getFilename() %>(<%=vo.getFilesize() %>Bytes)</td>
+             <td colspan="3"><a href="../databoard/download.jsp?fn=<%=vo.getFilename()%>"><%=vo.getFilename() %></a>(<%=vo.getFilesize() %>Bytes)</td>
            </tr>
      <%
         }
