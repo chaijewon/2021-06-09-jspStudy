@@ -12,6 +12,7 @@
     if(mode==null)
     	mode="1";
     int index=Integer.parseInt(mode);
+    // 자바로 제작 
     String main_jsp="";
     // include되는 파일만 지정 => 화면 출력하는 JSP만 설정 => insert_ok.jsp(X) , _ok.jsp
     switch(index)
@@ -47,7 +48,7 @@
 </head>
 <body id="top">
   <jsp:include page="header.jsp"></jsp:include>
-  <jsp:include page="<%=main_jsp %>"></jsp:include>
+  <jsp:include page="<%=main_jsp %>"></jsp:include><!-- 요청한 화면 출력하는 위치 -->
   <jsp:include page="footer.jsp"></jsp:include>
   <script src="../gravity/layout/scripts/jquery.min.js"></script> 
   <script src="../gravity/layout/scripts/jquery.backtotop.js"></script> 

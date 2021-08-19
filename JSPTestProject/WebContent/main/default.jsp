@@ -3,6 +3,26 @@
 <%
      FoodDAO dao=new FoodDAO();
      ArrayList<CategoryVO> list=dao.foodCategoryListData();
+     
+     // 쿠키 읽기 
+     Cookie[] cookies=request.getCookies();
+     ArrayList<FoodVO> fList=new ArrayList<FoodVO>();
+     if(cookies!=null && cookies.length>0)
+     {
+    	 for(int i=0;i<cookies.length;i++)
+    	 {
+    		 // getName() => 키이름 , getValue() => 값을 가지고 온다 
+    		 // Cookie cookie=new Cookie("f"+no,no);
+    		 // no => f1,f2,... 같은 맛집을 클릭시 => 제거 (키 중복이면 덮어 쓴다)
+    		 if(cookies[i].getName().startsWith("f"))
+    		 {
+    			 cookies[i].setPath("/");
+    			 String no=cookies[i].getValue();
+    			 FoodVO vo=dao.foodDetailData(Integer.parseInt(no));
+    			 fList.add(vo);
+    		 }
+    	 }
+     }
 %>
 <!DOCTYPE html>
 <html>
@@ -116,17 +136,27 @@
     </div>
     <!-- ################################################################################################ -->
     <h2 class="sectiontitle">최신 방문 맛집</h2>
+    <div>
+     <a href="../food/cookie_delete.jsp" class="btn btn-sm btn-primary">쿠키삭제</a>
+    </div>
+    <div style="height:20px"></div>
     <!-- ################################################################################################ -->
     <div>
-        <img class="radius-10" src="../gravity/images/demo/100x100.gif" alt="">
-        <img class="radius-10" src="../gravity/images/demo/100x100.gif" alt="">
-        <img class="radius-10" src="../gravity/images/demo/100x100.gif" alt="">
-        <img class="radius-10" src="../gravity/images/demo/100x100.gif" alt="">
-        <img class="radius-10" src="../gravity/images/demo/100x100.gif" alt=""> 
-        <img class="radius-10" src="../gravity/images/demo/100x100.gif" alt="">
-        <img class="radius-10" src="../gravity/images/demo/100x100.gif" alt="">
-        <img class="radius-10" src="../gravity/images/demo/100x100.gif" alt="">
-        <img class="radius-10" src="../gravity/images/demo/100x100.gif" alt="">
+        <%
+            int j=0;
+            if(fList!=null && fList.size()>0)
+            {
+               for(int i=fList.size()-1;i>=0;i--)
+               {
+            	 FoodVO fvo=fList.get(i);
+            	 if(j>9) break;
+        %>
+               <img style="width:100px;height:100px" class="radius-10" src=<%=fvo.getPoster().substring(0,fvo.getPoster().indexOf("^")) %> title="<%=fvo.getName()%>">
+        <%
+                  j++;
+               }
+            }
+        %>
     </div>
     <!-- ################################################################################################ --> 
     <!-- / main body -->

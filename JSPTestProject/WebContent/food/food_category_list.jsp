@@ -29,10 +29,13 @@
          <table class="table">
           <tr>
             <td width=30% class="text-center" rowspan="4">
-             <a href="../main/main.jsp?mode=6&no=<%=fvo.getNo()%>"><img src="<%=fvo.getPoster() %>" style="width:280px;height:180px"></a>
+            <%--
+                            화면 출력 내용이 있는 경우 (include) => 경로 (main.jsp?mode=3)
+             --%>
+             <a href="../food/detail_before.jsp?no=<%=fvo.getNo()%>"><img src="<%=fvo.getPoster() %>" style="width:280px;height:180px"></a>
             </td>
             <td width=70%>
-             <h3><a href="../main/main.jsp?mode=6&no=<%=fvo.getNo()%>"><%=fvo.getName() %></a>&nbsp;<span style="color:orange"><%=fvo.getScore() %></span></h3>
+             <h3><a href="../food/detail_before.jsp?no=<%=fvo.getNo()%>"><%=fvo.getName() %></a>&nbsp;<span style="color:orange"><%=fvo.getScore() %></span></h3>
             </td>
           </tr>
           <tr>
