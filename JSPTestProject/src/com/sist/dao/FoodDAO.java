@@ -122,6 +122,65 @@ public class FoodDAO {
 	   }
 	   return vo;
    }
+   // 맛집 상세보기 
+   // 맛집에 대한 1개의 모든 정보 (오라클 row) ==> VO
+   // 여러개 => ArrayList => 목록 
+   /*
+    *  NO      NOT NULL NUMBER         
+	CNO              NUMBER         
+	NAME    NOT NULL VARCHAR2(100)  
+	SCORE   NOT NULL NUMBER(2,1)    
+	ADDRESS NOT NULL VARCHAR2(200)  
+	TEL     NOT NULL VARCHAR2(20)   
+	TYPE    NOT NULL VARCHAR2(100)  
+	PRICE   NOT NULL VARCHAR2(100)  
+	PARKING NOT NULL VARCHAR2(100)  
+	TIME             VARCHAR2(200)  
+	MENU             VARCHAR2(2000) 
+	POSTER  NOT NULL VARCHAR2(1000) 
+	GOOD             NUMBER         
+	SOSO             NUMBER         
+	BAD              NUMBER     
+
+    */
+   public FoodVO foodDetailData(int no)
+   {
+	   FoodVO vo=new FoodVO();
+	   try
+	   {
+		   conn=db.getConnection();
+		   String sql="SELECT no,name,score,address,tel,type,NVL(price,'no'),NVL(parking,'no'),NVL(time,'no'),NVL(menu,'no'),poster,good,soso,bad "
+				     +"FROM food_house "
+				     +"WHERE no=?";
+		   ps=conn.prepareStatement(sql);
+		   ps.setInt(1, no);
+		   ResultSet rs=ps.executeQuery();
+		   rs.next();
+		   vo.setNo(rs.getInt(1));
+		   vo.setName(rs.getString(2));
+		   vo.setScore(rs.getDouble(3));
+		   vo.setAddress(rs.getString(4));
+		   vo.setTel(rs.getString(5));
+		   vo.setType(rs.getString(6));
+		   vo.setPrice(rs.getString(7));
+		   vo.setParking(rs.getString(8));
+		   vo.setTime(rs.getString(9));
+		   vo.setMenu(rs.getString(10));
+		   vo.setPoster(rs.getString(11));
+		   vo.setGood(rs.getInt(12));
+		   vo.setSoso(rs.getInt(13));
+		   vo.setBad(rs.getInt(14));
+		   rs.close();
+	   }catch(Exception ex)
+	   {
+		   ex.printStackTrace();
+	   }
+	   finally
+	   {
+		   db.disConnection(conn, ps);
+	   }
+	   return vo;
+   }
 }
 
 
