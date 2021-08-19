@@ -181,6 +181,43 @@ public class FoodDAO {
 	   }
 	   return vo;
    }
+   // 근처 맛집
+   public ArrayList<FoodVO> foodLocationData(String address)
+   {
+	   ArrayList<FoodVO> list=new ArrayList<FoodVO>();
+	   try
+	   {
+		   // 페이지 나누기 , 원하는 갯수만 출력 => rownum (오라클에서 지원하는 컬럼명)
+		   conn=db.getConnection();
+		   String sql="SELECT no,poster,name,type,address,price,rownum "
+				     +"FROM food_house "
+				     +"WHERE rownum<=5 AND "
+				     +"address LIKE '%'||?||'%'";// 오라클 SQL => LIKE
+		   ps=conn.prepareStatement(sql);
+		   ps.setString(1, address);
+		   ResultSet rs=ps.executeQuery();
+		   while(rs.next())
+		   {
+			   FoodVO vo=new FoodVO();
+			   vo.setNo(rs.getInt(1));
+			   vo.setPoster(rs.getString(2));
+			   vo.setName(rs.getString(3));
+			   vo.setType(rs.getString(4));
+			   vo.setAddress(rs.getString(5));
+			   vo.setPrice(rs.getString(6));
+			   list.add(vo);
+		   }
+		   rs.close();
+	   }catch(Exception ex)
+	   {
+		   ex.printStackTrace();
+	   }
+	   finally
+	   {
+		   db.disConnection(conn, ps);
+	   }
+	   return list;
+   }
 }
 
 
