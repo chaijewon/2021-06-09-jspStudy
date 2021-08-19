@@ -29,6 +29,12 @@
     case 4:
     	main_jsp="../databoard/detail.jsp";
     	break;
+    case 5:
+    	main_jsp="../food/food_category_list.jsp";
+    	break;
+    case 6:
+    	main_jsp="../food/food_detail.jsp";
+    	break;
     }
 %>
 <!DOCTYPE html>

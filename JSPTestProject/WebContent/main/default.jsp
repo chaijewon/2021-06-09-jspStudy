@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="java.util.*,com.sist.dao.*"%>
+<%
+     FoodDAO dao=new FoodDAO();
+     ArrayList<CategoryVO> list=dao.foodCategoryListData();
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -55,93 +59,59 @@
     <!-- ################################################################################################ -->
     <div class="flexslider carousel basiccarousel btmspace-80">
       <ul class="slides">
+       <%
+          for(int i=0;i<12;i++)
+          {
+        	  CategoryVO vo=list.get(i);
+       %>
         <li>
-          <figure><img class="radius-10 btmspace-10" src="../gravity/images/demo/320x185.png" alt="">
-            <figcaption><a href="#">Lorem Ipsum Dolor Sit Amet</a></figcaption>
+          <figure><img class="radius-10 btmspace-10" src="<%=vo.getPoster() %>" title="<%=vo.getSubject()%>">
+            <figcaption><a href="../main/main.jsp?mode=5&cno=<%=vo.getCno()%>"><%=vo.getTitle() %></a></figcaption>
           </figure>
         </li>
-        <li>
-          <figure><img class="radius-10 btmspace-10" src="../gravity/images/demo/320x185.png" alt="">
-            <figcaption><a href="#">Lorem Ipsum Dolor Sit Amet</a></figcaption>
-          </figure>
-        </li>
-        <li>
-          <figure><img class="radius-10 btmspace-10" src="../gravity/images/demo/320x185.png" alt="">
-            <figcaption><a href="#">Lorem Ipsum Dolor Sit Amet</a></figcaption>
-          </figure>
-        </li>
-        <li>
-          <figure><img class="radius-10 btmspace-10" src="../gravity/images/demo/320x185.png" alt="">
-            <figcaption><a href="#">Lorem Ipsum Dolor Sit Amet</a></figcaption>
-          </figure>
-        </li>
-        <li>
-          <figure><img class="radius-10 btmspace-10" src="../gravity/images/demo/320x185.png" alt="">
-            <figcaption><a href="#">Lorem Ipsum Dolor Sit Amet</a></figcaption>
-          </figure>
-        </li>
+        <%
+          }
+        %>
       </ul>
     </div>
     <h2 class="sectiontitle">지역별 인기 맛집</h2>
     <!-- ################################################################################################ -->
     <div class="flexslider carousel basiccarousel btmspace-80">
       <ul class="slides">
+        <%
+          for(int i=12;i<18;i++)
+          {
+        	  CategoryVO vo=list.get(i);
+       %>
         <li>
-          <figure><img class="radius-10 btmspace-10" src="../gravity/images/demo/320x185.png" alt="">
-            <figcaption><a href="#">Lorem Ipsum Dolor Sit Amet</a></figcaption>
+          <figure><img class="radius-10 btmspace-10" src="<%=vo.getPoster() %>" title="<%=vo.getSubject()%>">
+            <figcaption><a href="../main/main.jsp?mode=5&cno=<%=vo.getCno()%>"><%=vo.getTitle() %></a></figcaption>
           </figure>
         </li>
-        <li>
-          <figure><img class="radius-10 btmspace-10" src="../gravity/images/demo/320x185.png" alt="">
-            <figcaption><a href="#">Lorem Ipsum Dolor Sit Amet</a></figcaption>
-          </figure>
-        </li>
-        <li>
-          <figure><img class="radius-10 btmspace-10" src="../gravity/images/demo/320x185.png" alt="">
-            <figcaption><a href="#">Lorem Ipsum Dolor Sit Amet</a></figcaption>
-          </figure>
-        </li>
-        <li>
-          <figure><img class="radius-10 btmspace-10" src="../gravity/images/demo/320x185.png" alt="">
-            <figcaption><a href="#">Lorem Ipsum Dolor Sit Amet</a></figcaption>
-          </figure>
-        </li>
-        <li>
-          <figure><img class="radius-10 btmspace-10" src="../gravity/images/demo/320x185.png" alt="">
-            <figcaption><a href="#">Lorem Ipsum Dolor Sit Amet</a></figcaption>
-          </figure>
-        </li>
+        <%
+          }
+        %>
       </ul>
     </div>
     <h2 class="sectiontitle">메뉴별 인기 맛집</h2>
     <!-- ################################################################################################ -->
     <div class="flexslider carousel basiccarousel btmspace-80">
       <ul class="slides">
+        <%
+          for(int i=18;i<30;i++)
+          {
+        	  CategoryVO vo=list.get(i);
+       %>
         <li>
-          <figure><img class="radius-10 btmspace-10" src="../gravity/images/demo/320x185.png" alt="">
-            <figcaption><a href="#">Lorem Ipsum Dolor Sit Amet</a></figcaption>
+          <figure><img class="radius-10 btmspace-10" src="<%=vo.getPoster() %>" title="<%=vo.getSubject()%>">
+            <figcaption><a href="../main/main.jsp?mode=5&cno=<%=vo.getCno()%>"><%=vo.getTitle() %></a></figcaption>
           </figure>
         </li>
-        <li>
-          <figure><img class="radius-10 btmspace-10" src="../gravity/images/demo/320x185.png" alt="">
-            <figcaption><a href="#">Lorem Ipsum Dolor Sit Amet</a></figcaption>
-          </figure>
-        </li>
-        <li>
-          <figure><img class="radius-10 btmspace-10" src="../gravity/images/demo/320x185.png" alt="">
-            <figcaption><a href="#">Lorem Ipsum Dolor Sit Amet</a></figcaption>
-          </figure>
-        </li>
-        <li>
-          <figure><img class="radius-10 btmspace-10" src="../gravity/images/demo/320x185.png" alt="">
-            <figcaption><a href="#">Lorem Ipsum Dolor Sit Amet</a></figcaption>
-          </figure>
-        </li>
-        <li>
-          <figure><img class="radius-10 btmspace-10" src="../gravity/images/demo/320x185.png" alt="">
-            <figcaption><a href="#">Lorem Ipsum Dolor Sit Amet</a></figcaption>
-          </figure>
-        </li>
+        <%
+           // mode => 화면 을 변경(include파일 지정) => main.jsp에서 지정 
+           // 다른 변수 => jsp자체에서 처리 
+          }
+        %>
       </ul>
     </div>
     <!-- ################################################################################################ -->
