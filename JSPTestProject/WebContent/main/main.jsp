@@ -36,6 +36,10 @@
     case 6:
     	main_jsp="../food/food_detail.jsp";
     	break;
+    case 7:
+    	main_jsp="../food/location_find.jsp";
+    	break;
+    	
     }
 %>
 <!DOCTYPE html>

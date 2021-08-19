@@ -39,7 +39,7 @@
       </li>
       <li><a class="drop" href="#">맛집</a>
         <ul>
-          <li><a href="#">지역별맛집</a></li>
+          <li><a href="../main/main.jsp?mode=7">지역별맛집</a></li>
           <li><a href="#">맛집예약</a></li>
           <li><a href="#">맛집추천</a></li>
         </ul>
