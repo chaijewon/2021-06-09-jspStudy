@@ -39,7 +39,9 @@
     case 7:
     	main_jsp="../food/location_find.jsp";
     	break;
-    	
+    case 8:
+    	main_jsp="../member/join.jsp";
+    	break;
     }
 %>
 <!DOCTYPE html>

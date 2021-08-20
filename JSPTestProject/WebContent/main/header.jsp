@@ -143,6 +143,7 @@ $(function(){ // window.onload=function() , $(document).ready(function(){})
       %>
 		      <li><a class="drop" href="#">회원가입</a>
 		        <ul>
+		          <li><a href="../main/main.jsp?mode=8">회원가입</a></li>
 		          <li><a href="#">아이디찾기</a></li>
 		          <li><a href="#">비밀번호찾기</a></li>
 		        </ul>
