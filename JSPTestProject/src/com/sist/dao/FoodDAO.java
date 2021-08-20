@@ -330,6 +330,27 @@ public class FoodDAO {
 	   }
    }
    // 맛집 수정 
+   public void foodReplyUpdate(int no,String msg)
+   {
+	   try
+	   {
+		   conn=db.getConnection();
+		   String sql="UPDATE jsp_reply SET "
+				     +"msg=? "
+				     +"WHERE no=?";
+		   ps=conn.prepareStatement(sql);
+		   ps.setString(1, msg);
+		   ps.setInt(2, no);
+		   ps.executeUpdate();
+	   }catch(Exception ex)
+	   {
+		   ex.printStackTrace();
+	   }
+	   finally
+	   {
+		   db.disConnection(conn, ps);
+	   }
+   }
 }
 
 

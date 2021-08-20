@@ -25,6 +25,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script type="text/javascript" src="https://code.jquery.com/jquery.js"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
       google.charts.load("current", {packages:["corechart"]});
@@ -45,6 +47,32 @@
         var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
         chart.draw(data, options);
       }
+      
+      let u=0;
+      $(function(){
+    	  $('.updates').click(function(){
+    		  $('.aaa').hide();
+    		  let no=$(this).attr("data-no");
+    		  if(u==0)
+    		  {
+    			  $("#m"+no).show();
+    			  $(this).text("취소");
+    			  u=1;
+    		  }
+    		  else
+    		  {
+    			  $("#m"+no).hide();
+    			  $(this).text("수정");
+    			  u=0;
+    		  }
+    	  })
+    	  
+    	  $('.deletes').click(function(){
+    		  let no=$(this).attr("data-no");
+    		  let fno=$(this).attr("data-fno");
+    		  location.href="../food/food_reply_delete.jsp?no="+no+"&fno="+fno;
+    	  })
+      })
     </script>
 </head>
 <body>
@@ -166,12 +194,12 @@
 			            <article>
 			              <header>
 			                <%
-			                   if(id.equals(rvo.getId()))// 댓글을 쓴사람일 경우 
+			                   if(id!=null && id.equals(rvo.getId()))// 댓글을 쓴사람일 경우 
 			                   {
 			                %>
 					                <figure class="avatar inline">
-					                  <input type=button value="수정" class="btn btn-xs btn-danger">
-					                  <a href="../food/food_reply_delete.jsp?no=<%=rvo.getNo() %>&fno=<%=no %>" class="btn btn-xs btn-success" style="color:black">삭제</a>
+					                  <span class="btn btn-xs btn-danger updates" data-no="<%=rvo.getNo()%>">수정</span>
+					                  <span data-no="<%=rvo.getNo() %>" data-fno="<%= no %>" class="btn btn-xs btn-success deletes">삭제</span>
 					                </figure>
 			                <%
 			                   }
@@ -186,19 +214,20 @@
 			              </div>
 			            </article>
 			          </li>
-			          <li>
-			            <table class="table">
+			          
+			             <table class="table aaa" style="display:none" id="m<%=rvo.getNo()%>">
 					        <tr>
 					          <td>
-					           <form method=post action="../food/reply_insert.jsp">
+					           <form method=post action="../food/reply_update.jsp">
 					            <input type=hidden name=fno value="<%=no%>">
-					            <textarea rows="3" cols="70" name="msg" style="float:left"></textarea>
-					            <input type=submit value="댓글쓰기" style="float:left;height:67px;background-color:blue;color:white">
+					            <input type=hidden name=no value="<%=rvo.getNo()%>">
+					            <textarea rows="3" cols="30" name="msg" style="float:left"><%=rvo.getMsg() %></textarea>
+					            <input type=submit value="댓글수정" style="float:left;height:67px;background-color:blue;color:white">
 					           </form>
 					          </td>
 					        </tr>
 					      </table>
-			          </li>
+			          
 	          <%
 	            	 }
 	             }
