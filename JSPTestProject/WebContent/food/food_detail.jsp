@@ -2,6 +2,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import="com.sist.dao.*,java.util.*"%>
 <%
+    // session읽기 => id,name 입력 => 댓글 
+    String id=(String)session.getAttribute("id");
     String no=request.getParameter("no");
     // no에 해당되는 데이터를 오라클에서 가지고 온다 
     FoodDAO dao=new FoodDAO();
@@ -15,6 +17,8 @@
         		  서울특별시 마포구 서강로9길 60 지번 서울시 마포구 창전동 5-138
     */
     ArrayList<FoodVO> list=dao.foodLocationData(sss);
+    // 댓글 읽기
+    ArrayList<ReplyVO> rList=dao.foodReplyListData(Integer.parseInt(no));// no:맛집번호
 %>
 <!DOCTYPE html>
 <html>
@@ -144,10 +148,81 @@
 	      <table class="table">
 	        <tr>
 	         <td>
-	          <div id="piechart_3d" style="width: 600px; height: 300px;"></div>
+	          <div id="piechart_3d" style="width: 600px; height: 100px;"></div>
 	         </td>
 	        </tr>
 	      </table>
+	      <hr>
+	      <div id="comments">
+	        <h2>댓글</h2>
+	        <ul>
+	         <%
+	             if(rList!=null && rList.size()>0)
+	             {
+	            	 for(ReplyVO rvo:rList)
+	            	 {
+	         %>
+			          <li>
+			            <article>
+			              <header>
+			                <%
+			                   if(id.equals(rvo.getId()))// 댓글을 쓴사람일 경우 
+			                   {
+			                %>
+					                <figure class="avatar inline">
+					                  <input type=button value="수정" class="btn btn-xs btn-danger">
+					                  <a href="../food/food_reply_delete.jsp?no=<%=rvo.getNo() %>&fno=<%=no %>" class="btn btn-xs btn-success" style="color:black">삭제</a>
+					                </figure>
+			                <%
+			                   }
+			                %>
+			                <address>
+			                By <span style="color:blue"><%=rvo.getName() %></span>
+			                </address>
+			                <span>(<%=rvo.getDbday() %>)</span>
+			              </header>
+			              <div class="comcont">
+			                <p><%=rvo.getMsg() %></p>
+			              </div>
+			            </article>
+			          </li>
+			          <li>
+			            <table class="table">
+					        <tr>
+					          <td>
+					           <form method=post action="../food/reply_insert.jsp">
+					            <input type=hidden name=fno value="<%=no%>">
+					            <textarea rows="3" cols="70" name="msg" style="float:left"></textarea>
+					            <input type=submit value="댓글쓰기" style="float:left;height:67px;background-color:blue;color:white">
+					           </form>
+					          </td>
+					        </tr>
+					      </table>
+			          </li>
+	          <%
+	            	 }
+	             }
+	          %>
+	          </ul>
+          </div>
+	      <%
+	         if(id!=null)
+	         {
+	      %>
+	      <table class="table">
+	        <tr>
+	          <td>
+	           <form method=post action="../food/reply_insert.jsp">
+	            <input type=hidden name=fno value="<%=no%>">
+	            <textarea rows="3" cols="70" name="msg" style="float:left"></textarea>
+	            <input type=submit value="댓글쓰기" style="float:left;height:67px;background-color:blue;color:white">
+	           </form>
+	          </td>
+	        </tr>
+	      </table>
+	      <%
+	         }
+	      %>
 	    </div>
 	    <div class="col-sm-4">
 	      <h3 style="color:orange">주변 인기 식당</h3>

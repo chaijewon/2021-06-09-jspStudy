@@ -251,7 +251,97 @@ public class FoodDAO {
 	   }
 	   return list;
    }
+   // 맛집 댓글 올리기 
+   public void foodReplyInsert(ReplyVO vo)
+   {
+	   try
+	   {
+		   conn=db.getConnection();
+		   String sql="INSERT INTO jsp_reply VALUES(jr_no_seq.nextval,?,?,?,?,SYSDATE)";
+		   ps=conn.prepareStatement(sql);
+		   ps.setInt(1, vo.getFno());
+		   ps.setString(2, vo.getId());
+		   ps.setString(3, vo.getName());
+		   ps.setString(4, vo.getMsg());
+		   ps.executeUpdate();
+	   }catch(Exception ex)
+	   {
+		   ex.printStackTrace();
+	   }
+	   finally
+	   {
+		   db.disConnection(conn, ps);
+	   }
+   }
+   // 맛집 댓글 읽기
+   public ArrayList<ReplyVO> foodReplyListData(int fno)
+   {
+	  ArrayList<ReplyVO> list=new ArrayList<ReplyVO>();
+	  try
+	  {
+		  conn=db.getConnection();
+		  // MM(월) mm(분) => 오라클 MM(월) , MI(분)
+		  String sql="SELECT no,fno,id,name,msg,TO_CHAR(regdate,'YYYY-MM-DD HH24:MI:SS') "
+				    +"FROM jsp_reply "
+				    +"WHERE fno=?";
+		  ps=conn.prepareStatement(sql);
+		  ps.setInt(1, fno);
+		  ResultSet rs=ps.executeQuery();
+		  while(rs.next())
+		  {
+			  ReplyVO vo=new ReplyVO();
+			  vo.setNo(rs.getInt(1));
+			  vo.setFno(rs.getInt(2));
+			  vo.setId(rs.getString(3));
+			  vo.setName(rs.getString(4));
+			  vo.setMsg(rs.getString(5));
+			  vo.setDbday(rs.getString(6));
+			  list.add(vo);
+		  }
+		  rs.close();
+	  }catch(Exception ex)
+	  {
+		  ex.printStackTrace();  
+	  }
+	  finally
+	  {
+		  db.disConnection(conn, ps);
+	  }
+	  return list;
+   }
+   // 맛집 삭제
+   public void foodReplyDelete(int no)
+   {
+	   try
+	   {
+		   conn=db.getConnection();
+		   String sql="DELETE FROM jsp_reply "
+				     +"WHERE no=?";
+		   ps=conn.prepareStatement(sql);
+		   ps.setInt(1, no);
+		   ps.executeUpdate();
+	   }catch(Exception ex)
+	   {
+		   ex.printStackTrace();
+	   }
+	   finally
+	   {
+		   db.disConnection(conn, ps);
+	   }
+   }
+   // 맛집 수정 
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
 
