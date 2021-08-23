@@ -149,7 +149,7 @@
                for(int i=fList.size()-1;i>=0;i--)
                {
             	 FoodVO fvo=fList.get(i);
-            	 if(j>9) break;
+            	 if(j>8) break;
         %>
                <img style="width:100px;height:100px" class="radius-10" src=<%=fvo.getPoster().substring(0,fvo.getPoster().indexOf("^")) %> title="<%=fvo.getName()%>">
         <%

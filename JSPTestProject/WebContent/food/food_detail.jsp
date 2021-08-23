@@ -177,7 +177,7 @@
 	      <table class="table">
 	        <tr>
 	         <td>
-	          <div id="piechart_3d" style="width: 600px; height: 100px;"></div>
+	          <div id="piechart_3d" style="width: 500px; height: 100px;"></div>
 	         </td>
 	        </tr>
 	      </table>
@@ -215,20 +215,20 @@
 			              </div>
 			            </article>
 			          </li>
-			          
+			          <li>
 			             <table class="table aaa" style="display:none" id="m<%=rvo.getNo()%>">
 					        <tr>
-					          <td>
+					          <td class="inline">
 					           <form method=post action="../food/reply_update.jsp">
 					            <input type=hidden name=fno value="<%=no%>">
 					            <input type=hidden name=no value="<%=rvo.getNo()%>">
-					            <textarea rows="3" cols="30" name="msg" style="float:left"><%=rvo.getMsg() %></textarea>
-					            <input type=submit value="댓글수정" style="float:left;height:67px;background-color:blue;color:white">
+					            <textarea style="width:300px;height:67px" name="msg"><%=rvo.getMsg() %></textarea>
+					            <input type=submit value="댓글수정" style="height:67px;background-color:blue;color:white">
 					           </form>
 					          </td>
 					        </tr>
 					      </table>
-			          
+			        </li> 
 	          <%
 	            	 }
 	             }
@@ -244,7 +244,7 @@
 	          <td>
 	           <form method=post action="../food/reply_insert.jsp">
 	            <input type=hidden name=fno value="<%=no%>">
-	            <textarea rows="3" cols="70" name="msg" style="float:left"></textarea>
+	            <textarea rows="3" cols="55" name="msg" style="float:left"></textarea>
 	            <input type=submit value="댓글쓰기" style="float:left;height:67px;background-color:blue;color:white">
 	           </form>
 	          </td>
