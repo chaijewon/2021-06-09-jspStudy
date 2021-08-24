@@ -109,6 +109,53 @@ public class MovieDAO {
 	   }
 	   return total;
    }
+   /*
+    * 
+    *   MNO      NOT NULL NUMBER        
+	CNO               NUMBER        
+	TITLE    NOT NULL VARCHAR2(300) 
+	REGDATE           VARCHAR2(100) 
+	GENRE    NOT NULL VARCHAR2(200) 
+	NATION            VARCHAR2(100) 
+	GRADE    NOT NULL VARCHAR2(50)  
+	TIME     NOT NULL VARCHAR2(30)  
+	SCORE             NUMBER(2,1)   
+	SHOWUSER          VARCHAR2(100) 
+	POSTER   NOT NULL VARCHAR2(260) 
+    */
+    public MovieVO movieDetailData(int mno)
+    {
+    	MovieVO vo=new MovieVO();
+    	try
+    	{
+    		getConnection();
+    		String sql="SELECT title,regdate,genre,nation,grade,time,score,showuser,poster "
+    				  +"FROM daum_movie "
+    				  +"WHERE mno=?";
+    		ps=conn.prepareStatement(sql);
+    		ps.setInt(1, mno);
+    		ResultSet rs=ps.executeQuery();
+    		rs.next();
+    		vo.setTitle(rs.getString(1));
+    		vo.setRegdate(rs.getString(2));
+    		vo.setGenre(rs.getString(3));
+    		vo.setNation(rs.getString(4));
+    		vo.setGrade(rs.getString(5));
+    		vo.setTime(rs.getString(6));
+    		vo.setScore(rs.getDouble(7));
+    		vo.setShowUser(rs.getString(8));
+    		vo.setPoster(rs.getString(9));
+    		rs.close();
+    	}catch(Exception ex)
+    	{
+    		ex.printStackTrace();
+    	}
+    	finally
+    	{
+    		disConnection();
+    	}
+    	return vo;
+    }
    
 }
 
