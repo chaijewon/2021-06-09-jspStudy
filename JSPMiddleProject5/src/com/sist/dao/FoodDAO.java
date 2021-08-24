@@ -103,6 +103,44 @@ public class FoodDAO {
 	   return list;
    }
    // 상세보기 => <c:forTokens> , 메뉴(원) 
+   /*
+    *   private int no,cno,good,soso,bad;
+	    private String name,address,tel,type,price,parking,time,menu,poster;
+	    private double score;
+    */
+   public FoodVO foodDetailData(int no)
+   {
+	   FoodVO vo=new FoodVO();
+	   try
+	   {
+		   getConnection();
+		   String sql="SELECT name,address,tel,type,price,time,menu,poster,score "
+				     +"FROM food_house "
+				     +"WHERE no=?";
+		   ps=conn.prepareStatement(sql);
+		   ps.setInt(1, no);
+		   ResultSet rs=ps.executeQuery();
+		   rs.next();
+		   vo.setName(rs.getString(1));
+		   vo.setAddress(rs.getString(2));
+		   vo.setTel(rs.getString(3));
+		   vo.setType(rs.getString(4));
+		   vo.setPrice(rs.getString(5));
+		   vo.setTime(rs.getString(6));
+		   vo.setMenu(rs.getString(7));
+		   vo.setPoster(rs.getString(8));
+		   vo.setScore(rs.getDouble(9));
+		   rs.close();
+	   }catch(Exception ex)
+	   {
+		   ex.printStackTrace();
+	   }
+	   finally
+	   {
+		   disConnection();
+	   }
+	   return vo;
+   }
 }
 
 

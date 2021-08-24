@@ -87,11 +87,22 @@ public class FoodModel {
    }
    public void foodListData(HttpServletRequest request)
    {
-	   
+	   String cno=request.getParameter("cno");
+	   FoodDAO dao=new FoodDAO();
+	   ArrayList<FoodVO> list=dao.foodListData(Integer.parseInt(cno));
+	   request.setAttribute("list", list);
    }
    public void foodDetailData(HttpServletRequest request)
    {
 	   // detail.jsp => 안에 코딩된 자바 <% %>:메소드안에서 코딩
+	   String no=request.getParameter("no");
+	   FoodDAO dao=new FoodDAO();
+	   FoodVO vo=dao.foodDetailData(Integer.parseInt(no));
+	   request.setAttribute("vo", vo); 
+	   // 자바  <=====> JSP
+	   // request/session(기간) => request화면이 변경되는 초기화 => 특별한 경우가 아니면 request 
+	   // 여러개의 JSP에서 동시에 사용 => session(공유,공통으로 사용) => login(사용자 정보) 
+	   // 자바 ====> JSP로 값을 전송 (request,session,cookie)
    }
 }
 
