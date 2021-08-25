@@ -87,6 +87,7 @@ public class FoodModel {
    }
    public void foodListData(HttpServletRequest request)
    {
+	   // ?cno= => ?no=
 	   String cno=request.getParameter("cno");
 	   FoodDAO dao=new FoodDAO();
 	   ArrayList<FoodVO> list=dao.foodListData(Integer.parseInt(cno));
