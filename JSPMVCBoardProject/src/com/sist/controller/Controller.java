@@ -42,7 +42,9 @@ import java.util.*;
  *          / => 어떤 확장자가 들어와도 괜찮다 
  *          
  *          ==> web.xml (어노테이션을 이용하고 있다) ===> Spring:web.xml
- *     
+ *          JAXB / JAXP => Jsoup ==> 한개의 클래스에서 처리 (메소드찾기 => 어노테이션) => 스프링 (40%)
+ *          ====
+ *          1.8
  */
 public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -59,6 +61,7 @@ public class Controller extends HttpServlet {
     		"reply_ok.do",
     		"find.do"
     };
+    // 사용자 요청한 내용을 처리 하는 클래스들의 집합 => 비지니스로직 (Model)
     private String[] strCls= {
     		"com.sist.model.ListModel",
     		"com.sist.model.InsertModel",

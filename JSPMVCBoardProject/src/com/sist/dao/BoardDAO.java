@@ -154,8 +154,76 @@ public class BoardDAO {
     	}
     }
     // 3. 내용보기 => 2번
+    public BoardVO boardDetailData(int no)
+    {
+    	BoardVO vo=new BoardVO();
+    	try
+    	{
+    		getConnection();
+    		String sql="UPDATE mvcBoard SET "
+    				  +"hit=hit+1 "
+    				  +"WHERE no=?"; // 조회수 증가 
+    		ps=conn.prepareStatement(sql);
+    		ps.setInt(1, no);
+    		ps.executeUpdate();
+    		
+    		// 실제 데이터를 읽어 온다 
+    		sql="SELECT no,name,subject,content,regdate,hit "
+    	       +"FROM mvcBoard "
+    		   +"WHERE no=?";
+    		ps=conn.prepareStatement(sql);
+    		ps.setInt(1, no);
+    		ResultSet rs=ps.executeQuery();
+    		rs.next();
+    		vo.setNo(rs.getInt(1));
+    		vo.setName(rs.getString(2));
+    		vo.setSubject(rs.getString(3));
+    		vo.setContent(rs.getString(4));
+    		vo.setRegdate(rs.getDate(5));
+    		vo.setHit(rs.getInt(6));
+    		rs.close();
+    		
+    	}catch(Exception ex)
+    	{
+    		ex.printStackTrace();
+    	}
+    	finally
+    	{
+    		disConnection();
+    	}
+    	return vo;
+    }
     // 4. 답변 => 4번 
     // 5. 수정 
+    public BoardVO boardUpdateData(int no)
+    {
+    	BoardVO vo=new BoardVO();
+    	try
+    	{
+    		getConnection();
+    		String sql="SELECT no,name,subject,content "
+    	       +"FROM mvcBoard "
+    		   +"WHERE no=?";
+    		ps=conn.prepareStatement(sql);
+    		ps.setInt(1, no);
+    		ResultSet rs=ps.executeQuery();
+    		rs.next();
+    		vo.setNo(rs.getInt(1));
+    		vo.setName(rs.getString(2));
+    		vo.setSubject(rs.getString(3));
+    		vo.setContent(rs.getString(4));
+    		rs.close();
+    		
+    	}catch(Exception ex)
+    	{
+    		ex.printStackTrace();
+    	}
+    	finally
+    	{
+    		disConnection();
+    	}
+    	return vo;
+    }
     // 6. 삭제 => 5번
     // 7. 검색
 }
