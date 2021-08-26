@@ -41,7 +41,7 @@ public class Controller extends HttpServlet {
 				clsMap.put(id, obj);
 			}
 			
-		}catch(Exception ex) {}
+		}catch(Exception ex) {ex.printStackTrace();}
 	}
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -49,6 +49,7 @@ public class Controller extends HttpServlet {
 		String cmd=request.getRequestURI();
 		// 2. 요청처리 => 자바로 제작(Model)
 		cmd=cmd.substring(request.getContextPath().length()+1);
+		System.out.println(cmd);
 		// 3. 모델 클래스를 찾아서 요청 처리가 가능하게 만든다 
 		Model model=(Model)clsMap.get(cmd);
 		// 4. 요청하고 => JSP를 찾아서 => request/session을 전송 

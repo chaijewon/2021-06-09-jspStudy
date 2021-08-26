@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 클래스 등록 = Controller에서 읽어서 관리 -->
+<beans>
+  <bean id="main.do" class="com.sist.model.MainModel"/>
+  <bean id="movie_real.do" class="com.sist.model.MovieRealModel"/>
+  <bean id="movie_sch.do" class="com.sist.model.MovieSchModel"/>
+  <bean id="movie_box.do" class="com.sist.model.MovieBoxModel"/>
+  <bean id="music_genie.do" class="com.sist.model.MusicGenieModel"/>
+  <bean id="music_melon.do" class="com.sist.model.MusicMelonModel"/>
+  <bean id="music_total.do" class="com.sist.model.MusicTotalModel"/>
+</beans>

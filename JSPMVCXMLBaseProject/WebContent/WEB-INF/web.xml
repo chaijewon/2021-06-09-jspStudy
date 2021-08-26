@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
-  <display-name>JSPMVCProject4</display-name>
+  <display-name>JSPMVCXMLBaseProject</display-name>
   <!-- 
-       description*(X), display-name*(X), icon*(X))), servlet-name, (servlet-
-       class | jsp-file)?(X), init-param*(X), load-on-startup?(X), enabled?(X), async-supported?(X), 
-       run-as?(X), security-role-ref*(X), multipart-config?(X))
+       web.xml => filter (한글변환) , error등록 
+        1. servlet 등록 (XML의 경로를 포함)
+        2. DispatcherServlet을 호출할 수 있는 url-pattern을 지정 
+          ==================
+            *.do    *(어떤 단어든 상관없다)
+            
+            main.do     ===> DispatcherServlet => service()호출 
+            movie_real.do ===> DispatcherServlet => service()호출 
+            music_genie.do ===> DispatcherServlet => service()호출 
    -->
-   <!-- 
-       WebServlet("*.do") => Spring에는 존재하지 않는다 
-    -->
   <servlet>
     <servlet-name>mvc</servlet-name>
-    <servlet-class>com.sist.controller.Controller</servlet-class>
+    <servlet-class>com.sist.controller.DispatcherServlet</servlet-class>
     <init-param>
       <param-name>contextConfigLocation</param-name>
-      <param-value>C:\Users\SIST\git\20210609-jspStudy\JSPMVCProject4\WebContent\WEB-INF\application.xml</param-value>
-      
+      <param-value>C:\jspDev\jspStudy\JSPMVCXMLBaseProject\WebContent\WEB-INF\application.xml</param-value>
     </init-param>
   </servlet>
-  <!-- 
-       Content Model : (servlet-name, url-pattern+)
-   -->
   <servlet-mapping>
     <servlet-name>mvc</servlet-name>
     <url-pattern>*.do</url-pattern>
