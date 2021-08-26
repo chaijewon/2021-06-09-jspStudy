@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+    DTD => 제작(X) => 프레임워크 (마이바티스,스프링프레임워크)
+           => XML파일을 제작(X) , DTD => 보고 XML 코딩
+           => DTD 단점을 보완 (스키마) 
+              === MyBatis   ===== 스프링
+    1. 태그 정의 
+        <!ELEMENT 태그명 ()>
+                 태그 => <태그><태그></태그></태그> 
+                <tr><td></td></tr>
+                <태그>문자열</태그>
+    2. 속성 정의 
+        <!ATTLIST 태그명 속성명>
+    3. 특수문자 
+        <!ENTITY 변수명 "값">
+        ===================
+        <!ENTITY lt "<">  => 변수명 &lt; => 변수 출력 => &변수명;
+        <!ENTITY gt ">">  => &gt;
+        <!ENTITY nbsp " "> => &nbsp;
+      기호 :
+          ? => 태그사용(O),태그사용(X)
+          | => 둘중에 한개를 선택시  ==> th|td
+          * => 0번이상 
+          + => 1번이상 
+          default  => 반드시 사용 
+          
+    ==> <member>
+          <list>
+            <no>1</no>
+            <name>hong</name>
+            <sex>man</sex>
+            <phone>111-111</phone>
+          </list>
+          <list>
+            <no>1</no>
+            <name>hong</name>
+            <sex>man</sex>
+            <tel>2222-2222</tel>
+          </list>
+          <list>
+            <no>1</no>
+            <name>hong</name>
+            <sex>man</sex>
+          </list>
+        </member>
+-->
+<!ELEMENT member (list+)>
+<!ELEMENT list (no,name,sex,(phone|tel)?)> 
+<!ELEMENT no (#PCDATA)>
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT sex (#PCDATA)>
+<!ELEMENT phone (#PCDATA)>
+<!ELEMENT tel (#PCDATA)>
+
+
+
+
+
+
+
