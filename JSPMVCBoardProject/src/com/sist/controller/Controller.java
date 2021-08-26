@@ -45,6 +45,32 @@ import java.util.*;
  *          JAXB / JAXP => Jsoup ==> 한개의 클래스에서 처리 (메소드찾기 => 어노테이션) => 스프링 (40%)
  *          ====
  *          1.8
+ *          
+ *          => JSP(사용자=요청)  =======> Controller  ========> 해당 클래스를 찾아서 요청 처리  <====> DAO
+ *                               .do                          비지니즈로직(Model Calss)
+ *             Model클래스 ====> 결과값을 전송  =======> Controller ====> JSP로 전송 (추가된 데이터를 읽어서 화면에 출력)
+ *                             ==========                               | 클라이언트 브라우저 읽기
+ *                              request : 한번 사용(일반 데이터)
+ *                              session : 기간동안 사용 (클라이언트 정보 , 예매정보)
+ *                              => setAttribute() : 필요한 데이터를 추가해서 JSP전송  
+ *             Controller ===> 전송 할때 사용하는 메소드 
+ *                  => 1. JSP를 찾는다
+ *                        RequestDispatcher rd=request.getRequestDispatcher(jsp파일명)
+ *                           
+ *                     2. JSP로 request를 전송 (request에는 요청결과에 대한 데이터가 추가)
+ *                        rd.forward(request,response)
+ *                     3. 출력에 필요한 데이터를 받은 JSP에 화면 출력 
+ *          => Controller중심으로 요청=응답
+ *             =============
+ *               => 서비스 중간에 유지보수를 할 수 없다 (한번에 고정)
+ *               => 자주 수정을 하거나 추가하는 소스코딩을 하면 안된다 => 명령어(메뉴)나 클래스를 추가하면 안된다 
+ *                  ==================================== 파일을 이용해서 등록(XML,Properties)
+ *                                                                     ====== Spring/Struts(XML)
+ *                                                                     ====== Controller를 공개하지 않는다
+ *               => 클래스 = 모델 (사용자 요청 => 요청에 한개만 만들어서 수행 ==> 클래스가 많아서 관리하기 어렵다)
+ *                  ===== 같은 종류의 요청 ==> 메소드 처리 
+ *                                        ========> 찾기 조건이 많아진다 => 찾기를 쉽게 만들고 자동으로 호출이 가능
+ *                                                                   ============== 어노테이션 
  */
 public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;

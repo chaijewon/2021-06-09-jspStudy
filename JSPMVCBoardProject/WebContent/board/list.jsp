@@ -49,7 +49,14 @@
               </c:forEach>
               <img src="board/re_icon.png">
             </c:if>
-            <a href="detail.do?no=${vo.no }">${vo.subject }</a>
+            
+            <c:if test="${vo.subject!=msg }">
+              <a href="detail.do?no=${vo.no }">${vo.subject }</a>
+            </c:if>
+            <c:if test="${vo.subject==msg }">
+              <span style="color:gray">${vo.subject }</span>
+            </c:if>
+            
             <%-- .do : Controller호출 = Controller는 사용자의 요청내용을 처리는 클래스를 호출해서 처리가능하게 만든다 : 결과값만 JSP --%>
            </td>
            <td width=15% class="text-center">${vo.name }</td>

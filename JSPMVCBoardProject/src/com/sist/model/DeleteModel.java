@@ -8,7 +8,9 @@ public class DeleteModel implements Model {
 	@Override
 	public String handleRequest(HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
-		return null;
+		String no=request.getParameter("no");
+		request.setAttribute("no", no);
+		return "board/delete.jsp";
 	}
 
 }

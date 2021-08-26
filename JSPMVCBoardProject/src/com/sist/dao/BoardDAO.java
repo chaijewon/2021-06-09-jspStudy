@@ -194,6 +194,75 @@ public class BoardDAO {
     	return vo;
     }
     // 4. 답변 => 4번 
+    /*
+     *     ORDER BY group_id DESC,group_step ASC
+     *                no    group_id    group_step   group_tab(답변표시)  root  depth(삭제용,답변갯수)
+     *     AAAAAA      1       1           0             0                0      2
+     *       
+     *       =>BBBBB   2       1           1             1                1      1
+     *        =>CCCCC  3       1           2             2                2      0
+     *       =>DDDDD   4       1           1             1                1      0
+     *            
+     */
+    // 트랜잭션 코딩 
+    public void boardReplyInsert(int pno,BoardVO vo)
+    {
+    	try
+    	{
+    		//1.오라클 연결
+    		getConnection();
+    		//2.SQL문장 (1) => pno가 가지고 있는 group_id,group_step,group_tab를 가지고 온다
+    		// 답변과 관련된 데이터 읽기
+    		String sql="SELECT group_id,group_step,group_tab "
+    				  +"FROM mvcBoard "
+    				  +"WHERE no=?";
+    		ps=conn.prepareStatement(sql);
+    		ps.setInt(1, pno);
+    		ResultSet rs=ps.executeQuery();
+    		rs.next();
+    		int gi=rs.getInt(1); // 그대로 추가
+    		int gs=rs.getInt(2); // gs+1
+    		int gt=rs.getInt(3); // gt+1
+    		rs.close();
+    		//SQL문장 (2) => group_step를 증가 
+    		// 답변 출력순서 지정 
+    		sql="UPDATE mvcBoard SET "
+    		   +"group_step=group_step+1 "
+    	       +"WHERE group_id=? AND group_step>?";
+    		ps=conn.prepareStatement(sql);
+    		ps.setInt(1, gi);
+    		ps.setInt(2, gs);
+    		ps.executeUpdate();
+    		//SQL문장 (3) => insert 
+    		sql="INSERT INTO mvcBoard(no,name,subject,content,pwd,group_id,group_step,group_tab,root,depth) "
+    		   +"VALUES(mvc_no_seq.nextval,?,?,?,?,?,?,?,?,?)";
+    		ps=conn.prepareStatement(sql);
+    		ps.setString(1, vo.getName());
+    		ps.setString(2, vo.getSubject());
+    		ps.setString(3, vo.getContent());
+    		ps.setString(4, vo.getPwd());
+    		ps.setInt(5, gi);
+    		ps.setInt(6, gs+1);
+    		ps.setInt(7, gt+1);
+    		ps.setInt(8, pno);
+    		ps.setInt(9, 0);
+    		ps.executeUpdate();
+    		//SQL문장 (4) => depth를 증가 (답변의 갯수확인시킨다)
+    		sql="UPDATE mvcBoard SET "
+    		   +"depth=depth+1 "
+    		   +"WHERE no=?";
+    		ps=conn.prepareStatement(sql);
+    		ps.setInt(1, pno);
+    		ps.executeUpdate();
+    	}catch(Exception ex)
+    	{
+    		ex.printStackTrace();
+    	}
+    	finally
+    	{
+    		disConnection();
+    	}
+    }
     // 5. 수정 
     public BoardVO boardUpdateData(int no)
     {
@@ -224,7 +293,146 @@ public class BoardDAO {
     	}
     	return vo;
     }
+    // 5-1 실제 수정 (결과값 => 비밀번호(O),비밀번호(X) 
+    public boolean boardUpdate(BoardVO vo)
+    {
+    	boolean bCheck=false;// true => 수정처리 , false => 수정처리 없이 
+    	try
+    	{
+    		getConnection();
+    		//1.sql문장 => 비밀번호를 가지고 온다 
+    		String sql="SELECT pwd FROM mvcBoard "
+    				  +"WHERE no=?";
+    		ps=conn.prepareStatement(sql);
+    		ps.setInt(1, vo.getNo());
+    		ResultSet rs=ps.executeQuery();
+    		rs.next();
+    		String db_pwd=rs.getString(1);
+    		rs.close();
+    		
+    		if(db_pwd.equals(vo.getPwd()))// 수정가능
+    		{
+    			bCheck=true;
+    			// 실제 수정을 한다 
+    			sql="UPDATE mvcBoard SET "
+    			   +"name=?,subject=?,content=? "
+    			   +"WHERE no=?";
+    			ps=conn.prepareStatement(sql);
+    			ps.setString(1, vo.getName());
+    			ps.setString(2, vo.getSubject());
+    			ps.setString(3, vo.getContent());
+    			ps.setInt(4, vo.getNo());
+    			
+    			ps.executeUpdate();
+    		}
+    		else
+    		{
+    			bCheck=false;
+    		}
+    	}catch(Exception ex)
+    	{
+    		ex.printStackTrace();
+    	}
+    	finally
+    	{
+    		disConnection();
+    	}
+    	return bCheck;
+    }
     // 6. 삭제 => 5번
+    public boolean boardDelete(int no,String pwd)
+    {
+    	boolean bCheck=false;
+    	try
+    	{
+    		// 1. 연결 (연결 Connection주소 얻기)
+    		getConnection();
+    		// 2. SQL문장 => 비밀번호 검색 
+    		// 3. SQL문장 => depth검색 => 0삭제 , 0이 아니면 UPDATE
+    		// 4. SQL문장 => delete
+    		// 5. SQL문장 => update
+    		// 6. SQL문장 => depth 감소 
+    		String sql="SELECT pwd FROM mvcBoard "
+    				  +"WHERE no=?";
+    		ps=conn.prepareStatement(sql);
+    		ps.setInt(1, no);
+    		ResultSet rs=ps.executeQuery();
+    		rs.next();
+    		String db_pwd=rs.getString(1);
+    		rs.close();
+    		
+    		if(db_pwd.equals(pwd)) // 삭제
+    		{
+    			bCheck=true;
+    			sql="SELECT depth,root FROM mvcBoard "
+    			   +"WHERE no=?";
+    			ps=conn.prepareStatement(sql);
+    			ps.setInt(1, no);
+    			rs=ps.executeQuery();
+    			rs.next();
+    			int depth=rs.getInt(1);
+    			int root=rs.getInt(2);
+    			rs.close();
+    			
+    			if(depth==0) // 답변이 없는 게시물
+    			{
+    				sql="DELETE FROM mvcBoard "
+    				   +"WHERE no=?";
+    				ps=conn.prepareStatement(sql);
+    				ps.setInt(1, no);
+    				ps.executeUpdate();
+    			}
+    			else // 답변을 가지고 있는 게시물 
+    			{
+    				String msg="관리자가 삭제한 게시물입니다.";
+    				sql="UPDATE mvcBoard SET "
+    				   +"subject=?,content=? "
+    				   +"WHERE no=?";
+    				ps=conn.prepareStatement(sql);
+    				ps.setString(1, msg);
+    				ps.setString(2, msg);
+    				ps.setInt(3, no);
+    				ps.executeUpdate();
+    			}
+    			
+    			if(root!=0)
+    			{
+	    			sql="SELECT depth FROM mvcBoard "
+	    			   +"WHERE no=?";
+	    			ps=conn.prepareStatement(sql);
+	    			ps.setInt(1, root);
+	    			rs=ps.executeQuery();
+	    			rs.next();
+	    			int d=rs.getInt(1);
+	    			rs.close();
+	    			
+	    			if(d>0)
+	    			{
+	    				sql="UPDATE mvcBoard SET "
+	    				   +"depth=depth-1 "
+	    				   +"WHERE no=?";
+	    				ps=conn.prepareStatement(sql);
+	    				ps.setInt(1, root);
+	    				ps.executeUpdate();
+	    			}
+    			}
+    			
+    		}
+    		else
+    		{
+    			bCheck=false;
+    		}
+    		
+    	}catch(Exception ex)
+    	{
+    		ex.printStackTrace();
+    	}
+    	finally
+    	{
+    		disConnection();//반환 
+    	}
+    	return bCheck;
+    }
     // 7. 검색
 }
 
