@@ -31,6 +31,7 @@
           <li><a href="music_total.do">혼합뮤직</a></li>
         </ul>
       </li>
+      <li><a href="data.do">기능추가</a></li>
     </ul>
   </div>
 </nav>

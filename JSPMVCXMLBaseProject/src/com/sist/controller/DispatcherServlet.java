@@ -28,7 +28,7 @@ public class DispatcherServlet extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		// XML에 등록된 클래스를 읽어 온다 ==> XML의 경로가 필요 
 		String path=config.getInitParameter("contextConfigLocation");
-		System.out.println(path);
+		
 		try
 		{
 			// XML,HTML => 필요한 데이터를 읽어올때 => 파싱 (파서), 오라클 : JDBC (태그안에서 데이터 추출)

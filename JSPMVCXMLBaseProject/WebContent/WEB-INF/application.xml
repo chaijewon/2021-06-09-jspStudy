@@ -8,4 +8,5 @@
   <bean id="music_genie.do" class="com.sist.model.MusicGenieModel"/>
   <bean id="music_melon.do" class="com.sist.model.MusicMelonModel"/>
   <bean id="music_total.do" class="com.sist.model.MusicTotalModel"/>
+  <bean id="data.do" class="com.sist.model.DataModel"/>
 </beans>
